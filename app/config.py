@@ -36,10 +36,3 @@ class Settings(BaseSettings):
 @lru_cache
 def get_settings() -> Settings:
     return Settings()
-
-
-if __name__ == '__main__':
-    s = get_settings()
-    print(s.llm_model, s.db_path, s.has_llm)
-    print(s.ensure_dirs())
-    print(get_settings() is s)

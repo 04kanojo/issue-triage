@@ -65,11 +65,3 @@ class Evaluation:
         for key in ("precision", "recall", "f1", "accuracy", "macro_f1", "cost_per_item"):
             data[key] = round(data[key], 3)
         return data
-
-
-if __name__ == '__main__':
-    print(Issue(repo="a/b", number=1, title="t").key)
-
-    print(TriageResult(repo="a/b", number=2).to_dict())
-
-    print(Evaluation(name="rules", n=10, precision=0.33333).to_dict())
