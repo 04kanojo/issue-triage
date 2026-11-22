@@ -17,6 +17,6 @@
 
 ## 模型
 
-- 渠道：DeepSeek（OpenAI 兼容），`LLM_BASE_URL=https://api.deepseek.com`，`LLM_MODEL=deepseek-chat`。
+- 渠道：DeepSeek（OpenAI 兼容），`LLM_BASE_URL=https://api.deepseek.com`，`LLM_MODEL=deepseek-flash`。
 - M0 到 M5 一律用假模型（`FakeLLM`，确定性输出），M6 起才真正调用。
   理由：先把循环、工具面、评测口径跑对，再花钱换真实数字；否则调试期的花费会掩盖设计问题。
