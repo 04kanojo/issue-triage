@@ -27,6 +27,7 @@ class Settings(BaseSettings):
         return bool(self.llm_api_key)
 
     def ensure_dirs(self) -> pathlib.Path:
+        """确保父目录存在"""
         parent = pathlib.Path(self.db_path).parent
         parent.mkdir(parents=True, exist_ok=True)
         return parent

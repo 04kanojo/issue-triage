@@ -44,7 +44,6 @@ class TriageResult:
     trace_id: str = ""  # 关联 trace/日志的 id；出问题要能翻到那一轮的完整调用
 
     def to_dict(self) -> dict:
-        # 转纯 dict：存库、返回 API、写 JSONL 评测结果都用它
         return asdict(self)
 
 
@@ -62,6 +61,7 @@ class Evaluation:
 
     def to_dict(self) -> dict:
         data = asdict(self)
+        # float保留三位小数
         for key in ("precision", "recall", "f1", "accuracy", "macro_f1", "cost_per_item"):
             data[key] = round(data[key], 3)
         return data

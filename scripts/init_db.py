@@ -1,23 +1,31 @@
 """建库脚本：`py scripts/init_db.py`。
 
-M0 的验收命令之一。它只做三件事：建目录、建表、打印各表行数。
-
-## TODO(5)：实现 main
-
-要求：
-1. `from app.config import get_settings`，调 `ensure_dirs()` 拿到 db 路径。
-2. `from app.infra.db import connect, init_schema`，连接后建表。
-3. 打印一段可读信息：
-
-       db: data/triage.db
-       issues: 0 rows
-       schema: ok
-
-4. 用 `if __name__ == "__main__": main()` 守卫，让它可以被测试 import 而不执行。
-5. 不要吞异常：建表失败就让它带着 traceback 退出（退出码非 0）。
+它只做三件事：建目录、建表、打印各表行数。
+建表失败就让它带着 traceback 退出，不吞异常：（退出码非 0）。
 """
-
 from __future__ import annotations
+import pathlib
+import sys
+from contextlib import closing
 
-# TODO(5): 实现 main 与 __main__ 守卫
-raise NotImplementedError("TODO(5): 实现 init_db.main")
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
+from app.config import get_settings
+from app.infra.db import connect, init_schema
+
+
+def main() -> None:
+    # 1. 得到全局设置
+    settings = get_settings()
+    settings.ensure_dirs()
+    print(f"db: {settings.db_path}")
+
+    # 2. 初始化数据库
+    with closing(connect(settings.db_path)) as conn:
+        init_schema(conn)
+        rows = conn.execute("SELECT COUNT(*) FROM issues").fetchone()[0]
+    print(f"issues: {rows} rows")
+    print("schema: ok")
+
+
+if __name__ == "__main__":
+    main()
